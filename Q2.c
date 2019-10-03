@@ -37,6 +37,7 @@ int main(int argc, const char * argv[]) {
 																								
 	mid = malloc(sizeof(char) *s);
 	mid1 = malloc(sizeof(char)*200);
+	
 	for(int k=1; k<6; k++){
 		if(k != 1)
 			reset(line, "formula", length);
@@ -164,6 +165,7 @@ void reset(char** line, char file2[], int size){
 		ptr = strstr(line[i], "(check-sat)");
 		ptr2 = strstr(line[i], "(get-model)");
 		if((ptr == NULL) && (ptr2 == NULL)){
+			printf("%s\n", line[i]);
 			fprintf(dest, "%s", line[i]);
 		}
 	}
