@@ -22,7 +22,7 @@ int main(int argc, const char * argv[]) {
 	flag = 1;
 	FILE* fp, *fin;
 	char file_name[100];
-	char* mid, *mid1;
+	char* mid, *mid1, *mid2, *mid3, *mid4;
 	printf("Enter file name!!");
 	scanf("%s", file_name);
 
@@ -35,8 +35,15 @@ int main(int argc, const char * argv[]) {
 	for(j =0; j<w; j++)
 		output[j] = malloc(sizeof(int)*w);
 																								
-	mid = malloc(sizeof(char) *s);
-	mid1 = malloc(sizeof(char)*200);
+	mid = malloc(sizeof(char) *200);
+	mid1 = malloc(sizeof(char)*s);
+	mid2 = malloc(sizeof(char)*s);
+	mid3 = malloc(sizeof(char)*s);
+	mid4 = malloc(sizeof(char)*s);
+	strcpy(mid1, "\n(assert (or");
+	strcpy(mid2, "\n(assert (or");
+	strcpy(mid3, "\n(assert (or");
+	strcpy(mid4, "\n(assert (or");
 	
 	for(int k=1; k<6; k++){
 		if(k != 1)
@@ -71,18 +78,36 @@ int main(int argc, const char * argv[]) {
 			break;
 		}
 		char* l;
-		line[length] = malloc(sizeof(char)*s);
-		strcpy(mid, "\n(assert (or");
-		for(int i = 0; i < h; i++){
-			for(int j = 0; j < w; j++){
-				sprintf(mid1, " (not (= p%d-%d %d))", j,i, output[i][j]);
-				strcat(mid, mid1);
+		if(k != 5){
+			line[length] = malloc(sizeof(char)*s);
+			for(int i = 0; i < h; i++){
+				for(int j = 0; j < w; j++){
+					sprintf(mid, " (not (= p%d-%d %d))", j,i, output[i][j]);
+					if(k == 1)
+						strcat(mid1, mid);
+					else if(k == 2)
+						strcat(mid2, mid);
+					else if(k == 3)
+						strcat(mid3, mid);
+					else if(k == 4)
+						strcat(mid4, mid);
+				}
 			}
+			strcat(mid, "))");
+			if(k == 1)
+				line[length] = mid1;
+			else if(k == 2)
+				line[length] = mid2;
+			else if(k == 3)
+				line[length] = mid3;
+			else if(k == 4)
+				line[length] = mid4;
+
+			for(i = 0; i<=length;i++)
+				printf("%s", line[i]);
+			length++;
+			pclose(fin);
 		}
-		strcat(mid, "))");
-		line[length] = mid;
-		length++;
-		pclose(fin);
 	}
 }
 
@@ -165,7 +190,6 @@ void reset(char** line, char file2[], int size){
 		ptr = strstr(line[i], "(check-sat)");
 		ptr2 = strstr(line[i], "(get-model)");
 		if((ptr == NULL) && (ptr2 == NULL)){
-			printf("%s\n", line[i]);
 			fprintf(dest, "%s", line[i]);
 		}
 	}
