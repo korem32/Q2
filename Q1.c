@@ -278,5 +278,5 @@ int main ()
 		}
 		printf("\n") ;
 	}
-	pclose(fin) ;
+	pclose(fin);
 }
