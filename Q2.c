@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char** save(char file[], int* length);
+char** save(char file[], int* length, int w, int h);
 void reset(char** line, char file2[], int size);
 void logic (int w, int h, char** input);
 char** input_set(char filename[],int* n, int* m);
@@ -29,12 +29,12 @@ int main(int argc, const char * argv[]) {
 	input = input_set(file_name, &h, &w);
 	logic (w, h, input); //로직 짜서 formula에 저장하는 역할
 	int s = w*h*20;
-	line = save("formula", &length); //처음 formula를 line에다가 저장하는 역할 여기서 length 받음
+	line = save("formula", &length, w, h); //처음 formula를 line에다가 저장하는 역할 여기서 length 받음
 
 	output = malloc(sizeof(int*)*h);
 	for(j =0; j<w; j++)
 		output[j] = malloc(sizeof(int)*w);
-																								
+														
 	mid = malloc(sizeof(char) *200);
 	mid1 = malloc(sizeof(char)*s);
 	mid2 = malloc(sizeof(char)*s);
@@ -93,7 +93,14 @@ int main(int argc, const char * argv[]) {
 						strcat(mid4, mid);
 				}
 			}
-			strcat(mid, "))");
+			if(k == 1)
+				strcat(mid1, "))");
+			if(k == 2)
+				strcat(mid2, "))");
+			if(k == 3)
+				strcat(mid3, "))");
+			if(k == 4)
+				strcat(mid4, "))");
 			if(k == 1)
 				line[length] = mid1;
 			else if(k == 2)
@@ -103,8 +110,6 @@ int main(int argc, const char * argv[]) {
 			else if(k == 4)
 				line[length] = mid4;
 
-			for(i = 0; i<=length;i++)
-				printf("%s", line[i]);
 			length++;
 			pclose(fin);
 		}
@@ -164,16 +169,17 @@ char** input_set(char filename[], int* n, int* m){
 }
 
 
-char** save(char file[], int* length){
+char** save(char file[], int* length, int w, int h){
 	FILE *src = fopen(file, "r");
 	char** line;
 	size_t len;
 	ssize_t read;
-	line = malloc(sizeof(char*)*200);
+	int size = w*h*3 + 10;
+	line = malloc(sizeof(char*)*size);
 	line[0] = malloc(sizeof(char)*200);
 	while((read = getline(&line[(*length)], &len, src)) != -1){
 		(*length)++;
-		line[(*length)] = malloc(sizeof(char)*500);
+		line[(*length)] = malloc(sizeof(char)*2000);
 	}
 	free(line[(*length)]);
 	fclose(src);
