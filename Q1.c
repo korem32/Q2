@@ -9,27 +9,29 @@ int main ()
 	char* line[100];
 	char * string_ptr;
 	char** input;
-    size_t len;
-    ssize_t read;
-    int m = 1;
-    int i, j, k, l;
-	line[0] = malloc(sizeof(char)*200);
-
-    while((read = getline(&line[m], &len, fp)) >= 0){
-        m++;
-		line[m] = malloc(sizeof(char)*200);
-    }
-
-	input = malloc(sizeof(char*)*m);
-	for(j =1; j < m; j++){
-		string_ptr = strtok(line[j], " ");
-		input[j] = malloc(sizeof(char)*m);
-		for(i = 1; i < m; i++){
-			input[j][i] = *string_ptr;
-			string_ptr = strtok(NULL, " ");
+    FILE* inp = fopen(filename, "r");
+	int m = 0;
+	int n = 0;
+	char ** input;
+	char c;
+	
+	input = malloc(sizeof(char*)*9);
+	input[0] = malloc(sizeof(char*)*9);
+	while (!feof(inp)) {
+		fscanf(inp, "%c", &c);
+		if (c == ' ') {
+			continue;
+		}
+		else if (c == '\n') {
+			continue;
+			n++;
+			input[n] = malloc(sizeof(char*)*9);
+		}
+		else {
+			intput[n][m] = c;
+			m++;
 		}
 	}
-    fclose(fp);
 
 	int size = 9;
 
