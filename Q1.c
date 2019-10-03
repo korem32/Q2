@@ -4,19 +4,20 @@
 
 int main ()
 {
-	FILE *fp = fopen("input.txt", "r") ;
+	FILE *fp;
 
 	char* line[100];
 	char * string_ptr;
-	char** input;
-    FILE* inp = fopen(filename, "r");
+    FILE* inp = fopen("input.txt", "r");
 	int m = 0;
 	int n = 0;
 	char ** input;
 	char c;
-	
+	int i,j,k,l;
+
 	input = malloc(sizeof(char*)*9);
-	input[0] = malloc(sizeof(char*)*9);
+	for(i=0; i<9;i++)
+		input[i] = malloc(sizeof(char*)*9);
 	while (!feof(inp)) {
 		fscanf(inp, "%c", &c);
 		if (c == ' ') {
@@ -25,18 +26,17 @@ int main ()
 		else if (c == '\n') {
 			continue;
 			n++;
-			input[n] = malloc(sizeof(char*)*9);
 		}
 		else {
-			intput[n][m] = c;
+			input[n][m] = c;
 			m++;
 		}
 	}
+	fclose(inp);
 
 	int size = 9;
-
+	m=1;
  	fp = fopen("formula", "w") ;
-
 	for (i = 1 ; i <= size ; i++)
 		for (j = 1 ; j <= size ; j++)
 			fprintf(fp, "(declare-const p%d%d Int)\n", i, j) ;
@@ -251,24 +251,22 @@ int main ()
 
 	fclose(fp) ;
 
-
 	FILE * fin = popen("z3 formula", "r") ; //FIXME
 	char b[128] ;
 	char s[128] ;
 	char t[128] ;
 	char board[i][j];
 
-	fscanf(fin, "%s %s", b, b) ;
+	fscanf(fin, "%s %*s", b) ;
+	printf( "%s", b) ;
 	if (strcmp(b, "unsat")==0) {
   	printf("no solution\n");
     return 0;
   }
 	for (k = 1 ; k <= 81 ; k++) {
-		fscanf(fin, "%s %s %s %s %s", b, s, b, b, t) ;
-
+		fscanf(fin, "%*s %s %*s %*s %s", s, t) ;
 		i = s[1] - '0' ;
 		j = s[2] - '0' ;
-
 
 		board[i][j] = atoi(t) ;
 
