@@ -1,1 +1,145 @@
 # Q2
+Application: Fill-a-Pix
+
+(Basic Exploration) ———————————————
+
+1. Fill-a-Pix is to figure out whether the color of each cell of a NXM grid is White or Black, based on given clues
+
+2. Initially, the color of all cells are unknown, and clues are placed on certain cells
+	-a clue on a cell is a number between 0 and 9
+	-a clue indicates the number of Black cells in the surrounding 8 cells and the cell where the clue is on
+
+3. A solution assigns each cell as Black or White
+	-a game may have no solution, single, solution, or multiple solutions
+
+4. Requirement
+	-Your program must use the Quantifier-free LIA logic to model this game (not propositional logic)
+
+5. Input
+	-Read input from the standard input
+	(an input will be not larger than 1000x1000)
+	-Each line has initial settings of the cells of a row
+	( ? : no clue is given)
+	( 1..9 : a clue is given)
+
+6. Output
+	-Print out the colorings of the grid to the standard output
+	( 1 : Black )
+	( 0 : White )
+	-Print out “No solution” if there is no solution
+	-if there are multiple solutions, print them up to 5
+
+
+
+
+(Instruction: How To Execute The Program) ———————————————
+
+[This program may result standard-output if user compiles it with standard-input]
+
+1) First , compile C source code with command “gcc”, then this may result one execute file and formula
+
+Ex) $ make
+
+2) Second, if you execute the file that is just made by the C source code since you compiled it, then you will see 1 or more than 2 output results depending on how many solutions the problem has. 
+
+Ex) $ Q2_run
+
+(Output sample (1) - “only one solution case”)
+
+input)
+? ? 3 ? ? ? ? ? ? 1 ? ? ? ? ? ? ? ? ? 0 ? ? 0 ? ?
+0 3 ? ? 3 ? 3 ? 3 ? 0 ? ? 0 0 ? ? 0 ? ? ? ? ? 0 ?
+? ? 3 5 ? ? 3 ? 3 3 ? ? ? 0 ? ? ? ? ? ? 0 ? ? ? ?
+? ? ? ? ? ? ? ? ? ? ? ? ? ? 2 ? 1 ? ? ? ? 0 ? ? 0
+? 0 3 3 ? 3 ? 3 ? ? 0 ? 3 ? 3 ? ? ? ? 3 ? ? ? ? ?
+? ? ? ? ? ? ? 3 3 0 ? ? ? ? ? 3 5 3 6 3 3 ? ? ? 0
+? ? ? 3 ? ? 7 4 ? ? ? ? ? 3 ? 4 ? 3 ? ? ? 0 ? ? ?
+? 0 ? ? ? 3 5 4 ? ? 0 ? ? ? 4 ? 4 ? ? 3 3 ? ? ? ?
+? ? ? ? ? ? 4 ? 4 2 ? ? 2 ? 3 ? 3 ? 3 3 2 0 ? 0 ?
+? ? ? 3 ? 0 ? 2 ? 3 3 ? ? ? ? 4 2 2 3 ? ? ? ? ? ?
+0 ? ? 3 3 ? ? ? ? 3 ? ? ? ? 4 ? ? 2 ? ? ? ? ? ? 0
+? ? ? ? ? ? ? ? ? ? ? 6 6 ? 4 4 ? ? 4 3 3 0 ? ? ?
+? 0 0 ? ? ? 3 4 ? ? ? 7 ? ? ? ? ? 2 ? ? ? ? ? ? ?
+? ? ? 3 3 ? 4 ? ? 2 ? 7 ? ? ? ? 2 3 3 3 ? ? ? 0 ?
+? 0 2 ? ? 2 ? 3 ? ? 6 ? ? 3 ? ? 3 ? ? ? 0 ? ? ? ?
+? ? ? 3 ? ? 2 ? 3 ? 5 ? ? ? 2 3 ? ? 3 ? 2 ? 0 ? ?
+? ? 3 ? ? ? 2 ? ? ? ? 6 5 3 ? ? 3 3 ? 3 3 ? ? 0 ?
+0 ? ? ? 0 ? ? 4 4 ? ? 6 5 2 2 ? ? ? ? 2 3 3 ? 1 ?
+1 ? 4 ? 0 ? ? 4 5 ? ? 7 ? ? ? ? ? 2 ? ? ? ? 3 ? ?
+? 5 4 ? ? 1 0 ? 3 ? 4 6 ? 2 3 ? 6 3 5 2 2 1 ? ? ?
+? ? ? 4 2 ? 3 ? 3 ? ? ? 3 ? ? ? ? ? ? ? 4 ? ? ? 3
+? 4 4 ? ? 3 ? 5 ? ? 2 2 ? ? 3 ? ? ? 6 ? ? ? 2 ? 3
+? ? 3 3 ? 3 ? ? 4 ? ? ? ? 1 ? 3 5 3 5 3 ? ? 2 ? ?
+? 0 ? ? ? ? ? ? ? ? ? ? 0 ? ? ? ? ? ? ? 5 ? ? ? ?
+? ? ? ? 3 4 ? ? 3 4 ? ? ? 2 ? 4 3 ? ? 4 3 ? ? 4 ?
+
+output)
+0 0 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+0 0 0 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 
+0 0 0 1 0 1 0 1 0 0 0 0 1 1 1 0 0 1 0 1 0 0 0 0 0 
+0 0 0 1 0 1 0 1 0 0 0 0 1 0 0 1 0 1 0 1 0 0 0 0 0 
+0 0 0 1 0 1 0 1 0 0 0 0 0 1 0 1 0 1 0 1 0 0 0 0 0 
+0 0 0 1 0 1 1 1 0 0 0 0 0 0 1 0 1 0 0 1 0 0 0 0 0 
+0 0 0 1 0 0 0 0 1 0 0 0 1 0 1 0 1 0 0 1 0 0 0 0 0 
+0 0 0 1 0 0 0 1 0 1 0 0 1 0 0 1 0 0 1 0 0 0 0 0 0 
+0 0 0 1 0 0 0 0 0 1 0 1 1 0 1 0 0 0 0 1 0 0 0 0 0 
+0 0 0 0 1 0 0 0 1 0 0 1 1 0 1 1 0 1 0 1 0 0 0 0 0 
+0 0 0 0 1 0 1 1 0 0 0 1 1 0 1 0 0 0 0 1 0 0 0 0 0 
+0 0 0 0 1 0 1 0 0 0 1 1 1 0 0 1 0 0 1 0 0 0 0 0 0 
+0 0 0 1 0 0 0 1 0 0 1 1 0 1 0 0 1 0 1 0 0 0 0 0 0 
+0 0 0 1 0 0 0 0 1 1 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0 
+0 0 1 0 0 0 1 0 0 0 0 1 1 0 0 0 1 0 0 1 1 0 0 0 0 
+0 0 1 0 0 0 0 1 1 1 1 1 1 0 0 1 0 0 0 0 0 1 0 0 0 
+0 0 1 0 0 0 0 0 1 0 0 1 0 0 0 1 0 1 0 0 0 0 1 0 0 
+0 1 1 0 0 0 0 0 1 0 1 1 1 0 0 1 0 1 0 1 0 0 0 1 0 
+1 0 1 0 1 0 0 0 1 0 1 0 1 0 0 1 0 1 0 1 0 0 0 0 1 
+0 1 1 0 0 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 0 1 
+0 0 0 1 0 0 0 1 1 1 0 0 0 0 0 1 0 1 0 1 0 1 0 0 1 
+0 0 0 0 1 0 0 0 0 0 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 
+0 0 0 0 1 1 1 1 1 1 1 0 0 0 1 1 1 0 1 1 1 0 1 1 1
+
+(Output sample (2) - “more than one solution cases”)
+input)
+? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
+? 9 ? ? ? 9 ? ? ? ? ? ? ? ? 0 ?
+? ? ? ? ? ? ? ? ? ? ? ? ? ? ? ?
+
+output) 
+1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 
+1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 
+1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 
+
+1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 
+1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 
+1 1 1 0 1 1 1 0 0 0 0 0 1 0 0 0 
+
+1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 
+1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 
+1 1 1 0 1 1 1 0 0 0 0 0 1 0 0 0 
+
+1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 
+1 1 1 0 1 1 1 0 1 0 0 0 0 0 0 0 
+1 1 1 0 1 1 1 0 0 0 0 0 1 0 0 0 
+
+1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 
+1 1 1 0 1 1 1 0 0 0 0 0 0 0 0 0 
+1 1 1 0 1 1 1 0 0 0 0 1 0 0 0 0
+
+(Output sample (3) - “if there’s no solution”)
+
+input)
+? ? ? ? ? ? 1 ? 2 4
+? 0 ? ? 0 ? ? ? ? 2
+? ? ? ? ? 0 ? 2 ? ?
+0 ? ? 0 ? ? ? ? 2 1
+2 ? ? ? 3 ? 5 ? ? ?
+4 ? 3 ? ? 8 8 ? ? 1
+5 ? 6 ? 8 9 ? 8 5 ?
+? 4 5 6 ? ? ? 7 5 ?
+? ? ? 6 ? ? 6 ? ? ?
+? 0 ? 3 ? 3 ? 3 ? 0
+
+output)
+“No solution”
