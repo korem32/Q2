@@ -27,7 +27,7 @@ int main(int argc, const char * argv[]) {
 	scanf("%s", file_name);
 
 	input = input_set(file_name, &h, &w);
-
+	printf("%d %d\n", w, h);
 	logic (w, h, input); //로직 짜서 formula에 저장하는 역할
 	int s = w*h*20;
 	line = save("formula", &length, w, h); //처음 formula를 line에다가 저장하는 역할 여기서 length 받음
@@ -133,8 +133,9 @@ char** input_set(char filename[], int* n, int* m){
 			continue;
 		}
 		else if (c == '\n') {
-			if(m2 == 0) (*n)--;
 			if(*n==1){
+				if(m2 ==0)
+					continue;
 				*m = m2;
 				input[0] = malloc(sizeof(char) * m2);
 				for(int i =0; i< m2; i++){
@@ -144,6 +145,8 @@ char** input_set(char filename[], int* n, int* m){
 				(*n)++;
 				m2 = 0;
 			}else{
+				if(m2 ==0)
+					continue;
 				input[*n] = malloc(sizeof(char) * m2);
 				(*n)++;
 				m2 = 0;
@@ -160,12 +163,17 @@ char** input_set(char filename[], int* n, int* m){
 		}
 	}
 	if(*n == 1){
+		*m = m2;
+		printf("%d", *m);
 		input[0] = malloc(sizeof(char) * (*m));
 		for(int i =0; i< *m; i++){
 			input[0][i] = test[i];
 		}
 	}
 	(*n)--;
+	if(*m == 0)
+		*n = 0;
+
 	return input;
 }
 
@@ -220,6 +228,35 @@ void logic (int w, int h, char** input){
 			fprintf(fp,"(assert (or (= p%d-%d 0) (= p%d-%d 1)))\n",j, i, j, i);
 		}
 	}
+	if(w == 1){
+		if(input[0][0] != '?')
+			fprintf(fp,"(assert (= (+ p0-0 p1-0) %d))\n", input[0][0]);
+		if(input[w-1][0] != '?')
+			fprintf(fp,"(assert (= (+ p%d-0 p%d-0) %d))\n",w-1, w-2, input[w-1][0]);
+		for(i = 1; i < w-1; i++){
+			if(input[i][0] != '?'){
+				fprintf(fp, "(assert (= %c (+", input[i][0]);
+				for(j = i-1; j <= i+1; j++)
+					fprintf(fp, " p%d-%d",j, 0);
+				fprintf(fp, ")))\n") ;
+			}
+		}
+	}
+	else if(h == 1){
+		if(input[0][0] != '?')
+			fprintf(fp,"(assert (= (+ p0-0 p1-0) %d))\n", input[0][0]);
+		    if(input[w-1][0] != '?')
+					            fprintf(fp,"(assert (= (+ p%d-0 p%d-0) %d))\n",w-1, w-2, input[w-1][0]);
+				        for(i = 1; i < w-1; i++){
+							            if(input[i][0] != '?'){
+											                fprintf(fp, "(assert (= %c (+", input[i][0]);
+															                for(j = i-1; j <= i+1; j++)
+																				                    fprintf(fp, " p%d-%d",j, 0);
+																			                fprintf(fp, ")))\n") ;
+																							            }
+										        }
+	}
+	else{
 	// Q2 -> 가운데
 	fprintf(fp, "; Q2\n") ;
 	for (int a = 1 ; a < h-1 ; a++) {
@@ -320,6 +357,7 @@ void logic (int w, int h, char** input){
 		fprintf(fp, " p%d-%d", h-2, w-1);
 		fprintf(fp, " p%d-%d", h-2, w-2);
 		fprintf(fp, ")))\n");
+	}
 	}
 	fprintf(fp, "(check-sat)\n(get-model)");
 	fclose(fp);
