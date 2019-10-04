@@ -28,6 +28,11 @@ int main(int argc, const char * argv[]) {
 
 	input = input_set(file_name, &h, &w);
 	printf("%d %d\n", w, h);
+	for(i = 0; i<w; i++){
+		for(j=0;j<h;j++)
+			printf(" %d", input[i][j]);
+		printf("\n");
+	}
 	logic (w, h, input); //로직 짜서 formula에 저장하는 역할
 	int s = w*h*20;
 	line = save("formula", &length, w, h); //처음 formula를 line에다가 저장하는 역할 여기서 length 받음
