@@ -27,6 +27,7 @@ int main(int argc, const char * argv[]) {
 	scanf("%s", file_name);
 
 	input = input_set(file_name, &h, &w);
+
 	logic (w, h, input); //로직 짜서 formula에 저장하는 역할
 	int s = w*h*20;
 	line = save("formula", &length, w, h); //처음 formula를 line에다가 저장하는 역할 여기서 length 받음
@@ -303,24 +304,23 @@ void logic (int w, int h, char** input){
 	}
 																				
 	//왼쪽 아래
-																				if(input[h-1][0] != '?'){
-																							fprintf(fp, "(assert (= %c (+", input[h-1][0]);
-																									fprintf(fp, " p%d-%d", 0, h-1);
-																											fprintf(fp, " p%d-%d", 1, h-1);
-																													fprintf(fp, " p%d-%d", 0, h-2);
-																															fprintf(fp, " p%d-%d", 1, h-2);
-																																	fprintf(fp, ")))\n");
-																																		}
-																					//오른쪽 아래
-																					if(input[h-1][w-1] != '?'){
-																								fprintf(fp, "(assert (= %c (+", input[h-1][w-1]);
-																										fprintf(fp, " p%d-%d", h-1, w-1);
-																												fprintf(fp, " p%d-%d", h-1, w-2);
-																														fprintf(fp, " p%d-%d", h-2, w-1);
-																																fprintf(fp, " p%d-%d", h-2, w-2);
-																																		fprintf(fp, ")))\n");
-																																			}
-
-																						fprintf(fp, "(check-sat)\n(get-model)");
-																							fclose(fp);
+	if(input[h-1][0] != '?'){
+		fprintf(fp, "(assert (= %c (+", input[h-1][0]);
+		fprintf(fp, " p%d-%d", 0, h-1);
+		fprintf(fp, " p%d-%d", 1, h-1);
+		fprintf(fp, " p%d-%d", 0, h-2);
+		fprintf(fp, " p%d-%d", 1, h-2);
+		fprintf(fp, ")))\n");
+	}
+	//오른쪽 아래
+	if(input[h-1][w-1] != '?'){
+		fprintf(fp, "(assert (= %c (+", input[h-1][w-1]);
+		fprintf(fp, " p%d-%d", h-1, w-1);
+		fprintf(fp, " p%d-%d", h-1, w-2);
+		fprintf(fp, " p%d-%d", h-2, w-1);
+		fprintf(fp, " p%d-%d", h-2, w-2);
+		fprintf(fp, ")))\n");
+	}
+	fprintf(fp, "(check-sat)\n(get-model)");
+	fclose(fp);
 }
