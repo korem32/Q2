@@ -30,7 +30,7 @@ int main(int argc, const char * argv[]) {
 	printf("%d %d\n", w, h);
 	for(i = 0; i<w; i++){
 		for(j=0;j<h;j++)
-			printf(" %d", input[i][j]);
+			printf(" %c", input[i][j]);
 		printf("\n");
 	}
 	logic (w, h, input); //로직 짜서 formula에 저장하는 역할
