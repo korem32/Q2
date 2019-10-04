@@ -241,7 +241,7 @@ void logic (int w, int h, char** input){
 			fprintf(fp, "(assert (= %c (+", input[0][b]);
 			for(i = 0; i <= 1; i++)
 				for(j = b-1; j <= b+1; j++)
-					fprintf(fp, " p%d-%d",i,j);
+					fprintf(fp, " p%d-%d",j,i);
 			fprintf(fp, ")))\n") ;
 		}
 	}
