@@ -228,7 +228,7 @@ void logic (int w, int h, char** input){
 			fprintf(fp,"(assert (or (= p%d-%d 0) (= p%d-%d 1)))\n",j, i, j, i);
 		}
 	}
-	if(w == 1){
+	if(h == 1){
 		if(input[0][0] != '?')
 			fprintf(fp,"(assert (= (+ p0-0 p1-0) %d))\n", input[0][0]);
 		if(input[w-1][0] != '?')
@@ -242,122 +242,122 @@ void logic (int w, int h, char** input){
 			}
 		}
 	}
-	else if(h == 1){
+	else if(w == 1){
 		if(input[0][0] != '?')
-			fprintf(fp,"(assert (= (+ p0-0 p1-0) %d))\n", input[0][0]);
-		    if(input[w-1][0] != '?')
-					            fprintf(fp,"(assert (= (+ p%d-0 p%d-0) %d))\n",w-1, w-2, input[w-1][0]);
-				        for(i = 1; i < w-1; i++){
-							            if(input[i][0] != '?'){
-											                fprintf(fp, "(assert (= %c (+", input[i][0]);
-															                for(j = i-1; j <= i+1; j++)
-																				                    fprintf(fp, " p%d-%d",j, 0);
-																			                fprintf(fp, ")))\n") ;
-																							            }
-										        }
-	}
-	else{
-	// Q2 -> 가운데
-	fprintf(fp, "; Q2\n") ;
-	for (int a = 1 ; a < h-1 ; a++) {
-		for (int b = 1 ; b < w-1 ; b++) {
-			if(input[a][b] != '?'){
-				fprintf(fp, "(assert (= %c (+", input[a][b]);
-				for(i = a-1; i <= a+1; i++)
-					for(j = b-1; j <= b+1; j++)
-						fprintf(fp, " p%d-%d",j, i);
+			fprintf(fp,"(assert (= (+ p0-0 p0-1) %d))\n", input[0][0]);
+		if(input[0][h-1] != '?')
+			fprintf(fp,"(assert (= (+ p0-%d p0-%d) %d))\n",h-1, h-2, input[0][h-1]);
+		for(i = 1; i < h-1; i++){
+			if(input[0][i] != '?'){
+				fprintf(fp, "(assert (= %c (+", input[0][i]);
+				for(j = i-1; j <= i+1; j++)
+					fprintf(fp, " p%d-%d",0, j);
 				fprintf(fp, ")))\n") ;
 			}
 		}
 	}
-	
-	// Q3 -> 위
-	fprintf(fp, "; Q3\n") ;
-	for (int b = 1 ; b < w-1 ; b++) {
-		if(input[0][b] != '?'){
-			fprintf(fp, "(assert (= %c (+", input[0][b]);
-			for(i = 0; i <= 1; i++)
-				for(j = b-1; j <= b+1; j++)
-					fprintf(fp, " p%d-%d",j,i);
-			fprintf(fp, ")))\n") ;
+	else{
+		// Q2 -> 가운데
+		fprintf(fp, "; Q2\n") ;
+		for (int a = 1 ; a < h-1 ; a++) {
+			for (int b = 1 ; b < w-1 ; b++) {
+				if(input[a][b] != '?'){
+					fprintf(fp, "(assert (= %c (+", input[a][b]);
+					for(i = a-1; i <= a+1; i++)
+						for(j = b-1; j <= b+1; j++)
+							fprintf(fp, " p%d-%d",j, i);
+					fprintf(fp, ")))\n") ;
+				}
+			}
 		}
-	}
-											
-	// Q4 -> 아래
-	fprintf(fp, "; Q4\n") ;
-	for (int b = 1 ; b < w-1 ; b++) {
-		if(input[h-1][b] != '?'){
-			fprintf(fp, "(assert (= %c (+", input[h-1][b]);
-			for(i = h-2; i <= h-1; i++)
-				for(j = b-1; j <= b+1; j++)
-					fprintf(fp, " p%d-%d",j,i);
-			fprintf(fp, ")))\n") ;
+
+		// Q3 -> 위
+		fprintf(fp, "; Q3\n") ;
+		for (int b = 1 ; b < w-1 ; b++) {
+			if(input[0][b] != '?'){
+				fprintf(fp, "(assert (= %c (+", input[0][b]);
+				for(i = 0; i <= 1; i++)
+					for(j = b-1; j <= b+1; j++)
+						fprintf(fp, " p%d-%d",j,i);
+				fprintf(fp, ")))\n") ;
+			}
 		}
-	}
-													
-	// Q5 -> 왼쪽
-	fprintf(fp, "; Q5\n") ;
-	for (int b = 1 ; b < h-1 ; b++) {
-		if(input[b][0] != '?'){
-			fprintf(fp, "(assert (= %c (+", input[b][0]);
-			for(i = 0; i <= 1; i++)
-				for(j = b-1; j <= b+1; j++)
-					fprintf(fp, " p%d-%d",i,j);
-			fprintf(fp, ")))\n") ;
+
+		// Q4 -> 아래
+		fprintf(fp, "; Q4\n") ;
+		for (int b = 1 ; b < w-1 ; b++) {
+			if(input[h-1][b] != '?'){
+				fprintf(fp, "(assert (= %c (+", input[h-1][b]);
+				for(i = h-2; i <= h-1; i++)
+					for(j = b-1; j <= b+1; j++)
+						fprintf(fp, " p%d-%d",j,i);
+				fprintf(fp, ")))\n") ;
+			}
 		}
-	}
-											
-	// Q6 -> 오른쪽
-	fprintf(fp, "; Q6\n") ;
-	for (int b = 1 ; b < h-1 ; b++) {
-		if(input[b][w-1] != '?'){
-			fprintf(fp, "(assert (= %c (+", input[b][w-1]);
-			for(i = w-2; i <= w-1; i++)
-				for(j = b-1; j <= b+1; j++)
-					fprintf(fp, " p%d-%d",i,j);
-			fprintf(fp, ")))\n") ;
+
+		// Q5 -> 왼쪽
+		fprintf(fp, "; Q5\n") ;
+		for (int b = 1 ; b < h-1 ; b++) {
+			if(input[b][0] != '?'){
+				fprintf(fp, "(assert (= %c (+", input[b][0]);
+				for(i = 0; i <= 1; i++)
+					for(j = b-1; j <= b+1; j++)
+						fprintf(fp, " p%d-%d",i,j);
+				fprintf(fp, ")))\n") ;
+			}
 		}
-	}
-																	
-	//Q7
-	fprintf(fp, "; Q7\n") ;
-	if(input[0][0] != '?'){
-		fprintf(fp, "(assert (= %c (+", input[0][0]);
-		fprintf(fp, " p%d-%d", 0, 0);
-		fprintf(fp, " p%d-%d", 1, 0);
-		fprintf(fp, " p%d-%d", 0, 1);
-		fprintf(fp, " p%d-%d", 1, 1);
-		fprintf(fp, ")))\n");
-	}
-																			
-	//오른쪽 위
-	if(input[0][w-1] != '?'){
-		fprintf(fp, "(assert (= %c (+", input[0][w-1]);
-		fprintf(fp, " p%d-%d", w-1, 0);
-		fprintf(fp, " p%d-%d", w-1, 1);
-		fprintf(fp, " p%d-%d", w-2, 0);
-		fprintf(fp, " p%d-%d", w-2, 1);
-		fprintf(fp, ")))\n");
-	}
-																				
-	//왼쪽 아래
-	if(input[h-1][0] != '?'){
-		fprintf(fp, "(assert (= %c (+", input[h-1][0]);
-		fprintf(fp, " p%d-%d", 0, h-1);
-		fprintf(fp, " p%d-%d", 1, h-1);
-		fprintf(fp, " p%d-%d", 0, h-2);
-		fprintf(fp, " p%d-%d", 1, h-2);
-		fprintf(fp, ")))\n");
-	}
-	//오른쪽 아래
-	if(input[h-1][w-1] != '?'){
-		fprintf(fp, "(assert (= %c (+", input[h-1][w-1]);
-		fprintf(fp, " p%d-%d", h-1, w-1);
-		fprintf(fp, " p%d-%d", h-1, w-2);
-		fprintf(fp, " p%d-%d", h-2, w-1);
-		fprintf(fp, " p%d-%d", h-2, w-2);
-		fprintf(fp, ")))\n");
-	}
+
+		// Q6 -> 오른쪽
+		fprintf(fp, "; Q6\n") ;
+		for (int b = 1 ; b < h-1 ; b++) {
+			if(input[b][w-1] != '?'){
+				fprintf(fp, "(assert (= %c (+", input[b][w-1]);
+				for(i = w-2; i <= w-1; i++)
+					for(j = b-1; j <= b+1; j++)
+						fprintf(fp, " p%d-%d",i,j);
+				fprintf(fp, ")))\n") ;
+			}
+		}
+
+		//Q7
+		fprintf(fp, "; Q7\n") ;
+		if(input[0][0] != '?'){
+			fprintf(fp, "(assert (= %c (+", input[0][0]);
+			fprintf(fp, " p%d-%d", 0, 0);
+			fprintf(fp, " p%d-%d", 1, 0);
+			fprintf(fp, " p%d-%d", 0, 1);
+			fprintf(fp, " p%d-%d", 1, 1);
+			fprintf(fp, ")))\n");
+		}
+
+		//오른쪽 위
+		if(input[0][w-1] != '?'){
+			fprintf(fp, "(assert (= %c (+", input[0][w-1]);
+			fprintf(fp, " p%d-%d", w-1, 0);
+			fprintf(fp, " p%d-%d", w-1, 1);
+			fprintf(fp, " p%d-%d", w-2, 0);
+			fprintf(fp, " p%d-%d", w-2, 1);
+			fprintf(fp, ")))\n");
+		}
+
+		//왼쪽 아래
+		if(input[h-1][0] != '?'){
+			fprintf(fp, "(assert (= %c (+", input[h-1][0]);
+			fprintf(fp, " p%d-%d", 0, h-1);
+			fprintf(fp, " p%d-%d", 1, h-1);
+			fprintf(fp, " p%d-%d", 0, h-2);
+			fprintf(fp, " p%d-%d", 1, h-2);
+			fprintf(fp, ")))\n");
+		}
+		//오른쪽 아래
+		if(input[h-1][w-1] != '?'){
+			fprintf(fp, "(assert (= %c (+", input[h-1][w-1]);
+			fprintf(fp, " p%d-%d", h-1, w-1);
+			fprintf(fp, " p%d-%d", h-1, w-2);
+			fprintf(fp, " p%d-%d", h-2, w-1);
+			fprintf(fp, " p%d-%d", h-2, w-2);
+			fprintf(fp, ")))\n");
+		}
 	}
 	fprintf(fp, "(check-sat)\n(get-model)");
 	fclose(fp);
